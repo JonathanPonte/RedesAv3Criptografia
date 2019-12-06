@@ -7,6 +7,9 @@ import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import algoritimos.CifraCesar;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +18,7 @@ import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
@@ -22,6 +26,7 @@ public class principal extends JFrame {
 
 	private JPanel contentPane;
 	private BufferedImage img = null;
+	private String  pasta = null;
 
 	/**
 	 * Launch the application.
@@ -53,6 +58,17 @@ public class principal extends JFrame {
 		contentPane.setLayout(null);
 
 		JButton btnNewButton = new JButton("1");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CifraCesar cifraCesar = new CifraCesar();
+				try {
+					//teste
+					cifraCesar.obterMatrizColor(pasta);
+				} catch (IOException e1) {
+					System.out.println("deu ruim no cesar");
+				}
+			}
+		});
 		btnNewButton.setBounds(36, 520, 114, 25);
 		contentPane.add(btnNewButton);
 
@@ -74,13 +90,11 @@ public class principal extends JFrame {
 		JButton btnNewButton_3 = new JButton("Adicionar imagem");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				JFileChooser fileChooser = new JFileChooser();
 				int returnValor = fileChooser.showOpenDialog(fileChooser);
-				String pasta = null;
+				//String pasta = null;
 				if (returnValor == JFileChooser.APPROVE_OPTION) {
 					pasta = fileChooser.getSelectedFile().getAbsolutePath();
-
 					try {
 						img = ImageIO.read(new File(pasta));
 					} catch (Exception e2) {
