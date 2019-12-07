@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 public class CifraCesar {
 
-	public Color[][] criptografar(String caminho, int chaveCrip, int incrip) throws IOException {
+	public Color[][] criptografar(String caminho, int chaveCrip) throws IOException {
 		BufferedImage bufferedImage = ImageIO.read(new File(caminho));
 
 		Integer largura = bufferedImage.getWidth();
@@ -32,7 +32,7 @@ public class CifraCesar {
 	}
 	
 	
-	public Color[][] desCriptografar(BufferedImage img, int chaveCrip, int incrip) throws IOException {
+	public Color[][] desCriptografar(BufferedImage img, int chaveCrip) throws IOException {
 		
 		Integer largura = img.getWidth();
 		Integer altura = img.getHeight();
