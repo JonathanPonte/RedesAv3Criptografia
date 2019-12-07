@@ -1,6 +1,7 @@
 package Telas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
 
@@ -30,6 +31,7 @@ public class principal extends JFrame {
 	private String pasta = null;
 	private boolean foiClicado = false;
 	private JTextField chave;
+	private BufferedImage novaImgCrip = null;
 
 	/**
 	 * Launch the application.
@@ -79,17 +81,21 @@ public class principal extends JFrame {
 				CifraCesar cifraCesar = new CifraCesar();
 				try {
 					
-					BufferedImage novaImgCrip = null;
+					//fazer logica para poder incriptar novamente somente depois de decriptografar imagem anterior
 					
-					if(!foiClicado) {
-						foiClicado = true;
-						novaImgCrip = cifraCesar.converForImage(cifraCesar.obterMatrizColor(pasta, Integer.parseInt(chave.getText()), 1), img.getWidth(), img.getHeight());
-						mural.setIcon(new ImageIcon(novaImgCrip));
-					}else {
-						foiClicado = false;
-						novaImgCrip = cifraCesar.converForImage(cifraCesar.obterMatrizColor(pasta, Integer.parseInt(chave.getText()), 0), img.getWidth(), img.getHeight());
-						mural.setIcon(new ImageIcon(novaImgCrip));
+					if(pasta != null){
+						if(!foiClicado) {
+							foiClicado = true;
+							novaImgCrip = converParaImagem(cifraCesar.criptografar(pasta, Integer.parseInt(chave.getText()), 1), img.getWidth(), img.getHeight());
+							mural.setIcon(new ImageIcon(novaImgCrip));
+						}else {
+							foiClicado = false;
+							novaImgCrip = converParaImagem(cifraCesar.desCriptografar(novaImgCrip, Integer.parseInt(chave.getText()), 0), img.getWidth(), img.getHeight());
+							mural.setIcon(new ImageIcon(novaImgCrip));
+						}
+						
 					}
+					
 					
 					
 					
@@ -153,5 +159,23 @@ public class principal extends JFrame {
 		JLabel lblChave = new JLabel("Chave");
 		lblChave.setBounds(198, 505, 66, 15);
 		contentPane.add(lblChave);
+	}
+	
+	
+	public BufferedImage converParaImagem(Color[][] pixel, int largura, int altura) {
+		BufferedImage img = null;
+		img = new BufferedImage(largura, altura, BufferedImage.TYPE_INT_ARGB);
+
+		System.out.println(largura + "-" + altura);
+
+		for (int i = 0; i < largura; i++) {
+			for (int j = 0; j < altura; j++) {
+
+				img.setRGB(i, j, pixel[i][j].getRGB());
+
+			}
+		}
+
+		return img;
 	}
 }
